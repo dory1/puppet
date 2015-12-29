@@ -1,0 +1,19 @@
+class hpom::finalize {
+
+                file {
+                "/usr/local/src/finalize.sh":
+                                owner   => "root",
+                                group   => "root",
+                                mode    => 0775,
+                                ensure  => present,
+                                source  => "puppet:///modules/hpom/finalize.sh",
+                                notify  => Exec["finalize"]
+                }
+
+    exec { "finalize":
+        command     => "/bin/bash finalize.sh",
+        cwd         => "/usr/local/src",
+        refreshonly => true,
+        logoutput   => true,
+     }
+}

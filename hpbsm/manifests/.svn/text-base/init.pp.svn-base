@@ -1,0 +1,24 @@
+class hpom {
+	file { "/usr/local/src/HPOM_new.tar":
+		owner   => "root",
+		group   => "root",
+		mode    => 0775,
+		ensure  => present,
+		source  => "puppet:///modules/hpom/HPOM_new.tar",
+		notify  => Exec["unpack_hpom"]
+	}
+
+	exec { "unpack_hpom":
+		command     => "/bin/tar xf /usr/local/src/HPOM_new.tar && chown -R root:root /usr/local/src/HPOM",
+		cwd         => "/usr/local/src",
+		refreshonly => true,
+		notify      => Exec["install_hpom"]
+	}
+
+	exec { "install_hpom":
+		cwd         => "/usr/local/src/HPOM",
+		command     => "/usr/local/src/HPOM/InstallAgent.sh -all",
+		logoutput   => true,
+		refreshonly => true,
+	}
+}

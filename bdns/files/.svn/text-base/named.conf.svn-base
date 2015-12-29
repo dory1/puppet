@@ -1,0 +1,234 @@
+//
+// named.conf
+//
+// Provided by Red Hat bind package to configure the ISC BIND named(8) DNS
+// server as a caching only nameserver (as a localhost DNS resolver only).
+//
+// See /usr/share/doc/bind*/sample/ for example named configuration files.
+//
+
+acl mynetworks {
+127.0.0.1;
+172.16.0.0/16;
+192.168.0.0/16;
+10.200.0.0/16;
+192.114.0.0/16;
+192.115.0.0/16;
+192.117.0.0/16;
+212.25.0.0/16;
+62.219.0.0/16;
+81.218.0.0/16;
+212.179.0.0/16;
+84.108.0.0/14;
+82.80.0.0/15;
+79.176.0.0/13;
+109.64.0.0/14;
+217.22.0.0/16;
+85.130.128.0/17;  # BEZEQINT including moreshet pools
+
+147.237.0.0/16;   # BEZEQ
+147.235.0.0/16;   # BEZEQ
+217.163.48.0/23;  # BEZEQ
+147.234.0.0/16;   # ECI
+95.129.32.0/24;   # NEONET
+92.219.223.0/24;  # QSC Internet Services  - clients
+91.212.114.0/24;  # Compass
+91.200.144.0/22;  # NEWLAN-LTD
+91.199.94.0/24;   # Ansol Network Solutions Ltd.
+91.199.69.0/24;   # MACCABI-HEALTH-CARE-SERVICES
+91.198.5.0/24;    # REINHOLD COHN & PARTNERS
+91.198.254.0/24;  # metacafe
+91.195.162.0/23;  # MALAM-TEAM-LTD
+81.199.250.0/23;  # Aridor Assets
+81.199.116.0/23;  # Aridor Assets
+77.67.52.0/27;    # Panther Express Corp
+217.194.200.0/22; # Safelines Ltd.
+206.82.140.0/24;  # ???????????????
+195.62.18.0/23;   # OMNITECH
+193.28.155.0/24;  # OMNITECH
+193.138.92.0/24;  # OMNITECH
+195.244.22.0/23;  # Motorola Comunications Israel
+195.245.108.0/23; # Ariave Satcom LTD
+195.225.62.0/23;  # Ariave Satcom LTD
+195.200.92.0/23;  # Ariave Satcom LTD
+193.93.96.0/22;   # Ariave Satcom LTD
+195.200.205.0/24; # Ministry of Health
+194.50.175.0/24;  # Haifa Chemicals Ltd
+194.116.230.0/23; # EZface Ltd
+193.186.163.0/24; # F.I.H. FORMULA INVESTMENT HOUSE CLEARING LIMITED
+193.46.64.0/24;   # Israel Postal Company Ltd.
+193.39.79.0/24;   # Convergin Israel Ltd
+193.27.92.0/23;   # VERINT-CORPORATE
+193.17.42.0/24;   # TTI-TELECOM
+193.142.151.0/24; # T-Com Croatia Internet network - clients
+193.104.147.0/24; # LB ANNATEL LTD
+193.104.119.0/24; # DIESENHAUS UNITOURS LTD
+193.104.115.0/24; # PAYONEER RESEARCH AND DEVELOPMENT LTD
+192.118.92.0/22;  # Ordernet Ltd.
+192.118.88.0/22;  # Netafim
+192.118.76.0/22;  # Cisco Systems Israel Ltd.
+192.118.48.0/24;  # Comverse Network Systems
+192.118.112.0/22; # Amsalem Tours & Travel Ltd
+193.238.188.0/22; # Adgar Investments and Development Ltd
+77.67.6.0/23;     # IO Solutions
+193.33.16.0/23;   # Leadcom Integrated Solutions Ltd
+109.73.240.0/20;  # GlobalCom Telecommunications PLC
+212.22.173.0/24;  # Internet Solutions (Kenya) - clients
+82.166.7.0/22;    # 013 NetVision Ltd 
+82.166.11.0/23;   # 013 NetVision Ltd
+195.160.240.0/22; # Israel Ministry Of Defence
+147.237.0.0/16;   # Israeli Government Network
+88.154.0.0/15;    # Limited Liability Company "Astelit"
+88.152.0.0/15;    # Unitymedia
+82.218.0.0/16;    # KABSI.AT - clients
+81.219.0.0/16;    # Netia Telekom - clients
+80.74.0.0/16;     # ??????????????????
+213.31.0.0/16;    # Communications Networking Services
+193.104.62.0/24;  #BluePhoenix Solutions Ltd.
+91.216.252/24;    #Leverate Technological Trading LTD
+91.197.60.0/15;   #Tirkovot Brom Ltd.
+194.177.16.0/22;  #Oil Refineries LTD
+91.199.119.0/24;   # Wixpress LTD
+91.202.169.0/22;   # G.N.S. Gorlizky Network Services LTD
+192.116.102.0/24;   #quicklink
+91.199.69.0/24;    #maccabi health services
+85.114.96.0/20;   # Fusion LTD
+85.114.112.0/21;  # Fusion LTD
+85.114.126.0/24;  # Fusion LTD
+91.228.248.0/24;  #Tel-Hasomer hospital
+146.185.56.0/21;  # Broadnet
+46.43.64.0/23;	# Broadnet
+46.43.64.70;	 #broadnet
+46.43.66.70;	 #broadnet
+46.43.64.46;	 #broadnet
+46.43.64.58;	 #broadnet
+46.43.64.18;	 #broadnet
+46.43.64.19; 	#broadnet
+46.43.66.2; 	#broadnet
+31.168.0.0/16;
+46.16.0.0/16;
+91.227.164.0/23;  #Strauss 
+217.156.160.152/29;	#globico
+91.231.192.0/24;   #bank leumi
+91.231.193.0/24;   #bank leumi
+194.90.76.224/27;     #leumi card
+194.90.224.16/28;     #leumi card
+194.90.239.0/28;      #leumi card
+194.90.239.16/28;     #leumi card
+194.90.239.32/27;     #leumi card
+194.90.239.64/26;     #leumi card
+212.143.24.224/29;    #leumi card
+212.235.13.48/28;     #leumi card
+62.0.28.208/28;       #leumi card
+194.90.106.128/26;    #leumi card
+62.0.64.128/26;       #leumi card
+81.218.97.0/24; #education gov il
+81.218.96.0/24; #education gov il
+194.90.1.5; #education gov il
+194.114.146.0/24; #clalalit
+194.114.147.0/24; #clalalit
+185.21.8.0/22;
+195.93.234.0/23; #BT Communication Israel LTD
+5.34.168.0/21; 
+213.184.96.0/19; #Net-style
+46.43.64.0/22;#globico
+91.240.234.0/24; #Keshet TV
+91.240.235.0/24; #Keshet TV
+216.118.232.0/24; #ariav satcom
+216.118.233.0/24; #ariav satcom
+185.18.204.0/22; #interhost
+147.236.0.0/16; #automation company
+93.104.77.0/24; #Data center
+};
+
+
+options {
+        include "/var/named/listen.conf";
+        version     "Hmmm... neh. ";
+        directory       "/var/named";
+        dump-file       "/var/named/data/cache_dump.db";
+        statistics-file "/var/named/data/named_stats.txt";
+        memstatistics-file "/var/named/data/named_mem_stats.txt";
+        allow-query     { mynetworks; };
+        pid-file  "/var/run/named/named.pid";
+        recursion yes;
+
+        allow-recursion { mynetworks; };
+        recursive-clients 10000;
+        minimal-responses yes ;
+
+
+        dnssec-enable yes;
+#       dnssec-validation yes;
+#       dnssec-lookaside auto;
+
+        /* Path to ISC DLV key */
+#       bindkeys-file "/etc/named.iscdlv.key";
+};
+
+logging {
+        channel named_log {
+                file "data/named.log" versions 5 size 2000m;
+                severity info;
+                print-time yes;
+                print-category yes;
+                print-severity yes;
+        };
+
+
+
+
+        channel debug_log {
+                file "data/named_debug.log" versions 5 size 2000m;
+                severity dynamic;
+                print-time yes;
+                print-category yes;
+                print-severity yes;
+        };
+
+
+
+        channel query_log {
+                file "data/query.log" versions 5 size 2000m;
+                print-time yes;
+                severity info;
+
+        };
+
+
+        category default { named_log; debug_log; };
+        category config { named_log; debug_log; };
+        category queries { query_log; };
+};
+
+
+include "/etc/rndc.key";
+ controls {                                                                 #
+       inet 127.0.0.1 port 953                                              #
+               allow { 127.0.0.1; } keys { "rndc-key"; };                   #
+
+ };
+
+
+zone "." IN {
+        type hint;
+        file "named.ca";
+};
+
+include "/etc/named.rfc1912.zones";
+
+zone "xn--9dbq2a" {
+        type forward;
+        forwarders { 212.179.112.253; 194.90.1.105; 203.81.44.47; };
+};
+zone "xn--4dbe9d" {
+        type forward; forwarders { 212.179.112.253; 194.90.1.105; 80.179.88.82; 120.50.44.141; };
+};
+zone "xn--debp" { 
+        type forward; forwarders { 212.179.112.253; 194.90.1.105; 80.179.88.82; 120.50.44.141; };
+};
+
+zone "nationwide.co.uk" {
+        type forward; 
+	forwarders { 192.115.106.10; 192.115.106.11; 62.219.186.11; };
+};

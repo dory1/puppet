@@ -1,0 +1,136 @@
+class bezeqintsec::users {
+        user {'asaft':
+                comment => 'SystemUnix',
+                ensure  => present,
+                home    => '/home/asaft',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$15oHE9CT$Q9U851iSrr6Tcm7h9EnM6/',
+                }
+        user {'aviap':
+                comment => 'SystemUnix',
+                ensure  => present,
+                home    => '/home/aviap',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$cIB6Rg9p$NwKZ9UEPIvDgz2J5mTVXT.',
+                }
+        user {'eliransh':
+                comment => 'SystemUnix',
+                ensure  => absent,
+                home    => '/home/eliransh',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$XIUu2Isr$GZY6NfuvS9q4QJtP80TBx1',
+                }
+        user {'michaelle':
+                comment => 'SystemUnix',
+                ensure  => absent,
+                home    => '/home/michaelle',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$om7uiwLp$Q4p5ov5qphk6uHDXZDfpB/',
+                }
+       user {'danitr':
+                comment => 'SystemUnix',
+                ensure  => present,
+                home    => '/home/danitr',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$S4l/y6f.$Mv9ogg4HOFME4upSOVHGr0',
+                }
+
+       user {'dory':
+                comment => 'SystemUnix',
+                ensure  => present,
+                home    => '/home/dory',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$Fs4EG53v$vQ9Cy9x7vVCHSQ7JRMBTX.',
+                }
+
+	 user {'nirz':
+                comment => 'SystemUnix',
+                ensure  => present,
+                home    => '/home/nirz',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$Uz5FLblJ$vskIpIHM9xj6FiUJzAkiC.',
+                }
+        user {'leonidle':
+                comment => 'SystemUnix',
+                ensure  => present,
+                home    => '/home/leonidle',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$ht.Ke.pV$wAJA2YIkcLuDudZbPPAf./',
+                }
+        user {'yanivka':
+                comment => 'SystemUnix',
+                ensure  => absent,
+                home    => '/home/yanivka',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$om7uiwLp$Q4p5ov5qphk6uHDXZDfpB/',
+                }
+        user {'shobab':
+                comment => 'Shob HPOM user',
+                ensure            => present,
+                home    => '/home/shobab',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$ZcIKjfNE$GQr4zrWoueZ397lQSGnNx0',
+                }
+        user {'unixbak':
+                comment => 'SystemUnix',
+                ensure  => present,
+                home    => '/home/unixbak',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$om7uiwLp$Q4p5ov5qphk6uHDXZDfpB/',
+                }
+        user {'arield':
+                comment => 'SystemUnix',
+                ensure  => absent,
+                home    => '/home/arield',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$gbreGYco$TRxTzVHGKAGfQ3irRLVk8/',
+                }
+        user {'root':
+                comment => 'root',
+                ensure  => present,
+                home    => '/root',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$QVzCZUrD$2PXiWKQ8xidW54NK0Bhjf0',
+                }
+        user {'koby':
+                ensure  => absent,
+                home    => '/home/koby',
+                shell   => '/bin/bash',
+                managehome => true,
+                }
+        user {'romanp':
+                ensure  => absent,
+                home    => '/home/romanp',
+                shell   => '/bin/bash',
+                managehome => true,
+                }
+        user {'ilial':
+                ensure  => absent,
+                home    => '/home/ilial',
+                shell   => '/bin/bash',
+                managehome => true,
+                }
+        user {'gabim':
+                comment => 'SystemUnix',
+                ensure  => absent,
+                home    => '/home/michaelle',
+                shell   => '/bin/bash',
+                managehome => true,
+                password => '$1$om7uiwLp$Q4p5ov5qphk6uHDXZDfpB/',
+                }
+
+}
+

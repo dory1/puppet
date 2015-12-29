@@ -1,0 +1,207 @@
+// named.rfc1912.zones:
+//
+// Provided by Red Hat caching-nameserver package 
+//
+// ISC BIND named zone configuration for zones recommended by
+// RFC 1912 section 4.1 : localhost TLDs and address zones
+// and http://www.ietf.org/internet-drafts/draft-ietf-dnsop-default-local-zones-02.txt
+// (c)2007 R W Franks
+// 
+// See /usr/share/doc/bind*/sample/ for example named configuration files.
+//
+
+zone "localhost.localdomain" IN {
+        type master;
+        file "named.localhost";
+        allow-update { none; };
+};
+
+zone "localhost" IN {
+        type master;
+        file "named.localhost";
+        allow-update { none; };
+};
+
+zone "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa" IN {
+        type master;
+        file "named.loopback";
+        allow-update { none; };
+};
+
+zone "1.0.0.127.in-addr.arpa" IN {
+        type master;
+        file "named.loopback";
+        allow-update { none; };
+};
+
+zone "0.in-addr.arpa" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "bzq.outgoing.ratelimit" {
+
+    type forward;
+                 forward first;
+    forwarders { 192.114.66.132; };
+
+};
+
+################ Forbidden By Police #####################################
+zone "www.golasso.co.il" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "wnet.co.il" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "topdown.me" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "tvnetil.net" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "sikorim.net" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "favez0ne.net" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "showmovies.me" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "nako.me" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "gozlan.me" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "nako4.me" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "gozlan.tv" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+
+zone "nako.axe.co.il" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "loka.me" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "deniro.me" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "gozlan.co" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "ynax.net" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "hehalutz-26.com" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "sdarot.tv" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "mobile.sdarot.tv" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "sdarot.im" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "sdarot.me" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "sdarot.pw" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "sdarot.co.in" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "sdarot.li" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "unidown.co.il" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "downsong.net" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};

@@ -1,0 +1,145 @@
+#!/bin/bash
+#The script installs the oasetup.sh and checks it's output
+#The script will get the required environment to install on as argument
+#The script will generate the following exitcodes:
+#       1 - The file /var/HPMon/MonHostDetails.TXT wasn't found
+#       2 - The installation had errors
+#       3 - No errors was found but no "success" line was found either
+#       4 - Incorrect OS BITs
+#       5 - The file content is incorrect
+#       6 - The script should have 1 argument
+#       7 - The argument is incorrect, should be -p, -t or -all
+#       8 - The server is not in the required environment
+
+#Get the environment argument
+sENV=$1
+#Check that there is no more then 1 arguemnt
+if [ "$#" -ne 1 ] ; then
+    exit 6
+else
+    #Check the validity of the the argument
+    if [ $sENV != "-t" -a $sENV != "-p" -a $sENV != "-all" ] ; then
+        exit 7  
+    fi
+fi
+#Get the valid IP address using deagult gateway
+sInt=`facter --puppet default_gateway_interface`
+sNetstat=`facter --puppet ipaddress_${sInt}`
+#echo "ip is:" $sNetstat
+#Checks if the server exists in the /etc/hosts file, if not - addes it
+sHostname=`hostname`
+OLDIFS=$IFS
+IFS=.
+arry=($sHostname)
+IFS=$OLDIFS
+if [ -z ${arry[1]} ] ; then
+    str="${sNetstat}  ${sHostname}"
+else
+    str="${sNetstat}  ${sHostname} ${arry[0]}"
+fi
+sGrep=`cat /etc/hosts | grep -v "#" | grep -i ${arry[0]}`
+if [ -z "${sGrep}" ] ; then
+    echo ${str} >> /etc/hosts
+fi
+sInstLocation="."
+sBITs=`getconf LONG_BIT`
+if [ $sBITs != "64" -a $sBITs != "32" ] ; then
+    exit 4
+fi
+sInstLocation="${sInstLocation}/${sBITs}/"
+cd $sInstLocation
+sFileName=`ls -l /var/HPMon/ | grep -i MonHostDetails.txt | awk '{print $NF}'`
+sFileName="/var/HPMon/"${sFileName}
+#Check if the file /var/HPMon/MonHostDetails.txt exists
+if [[ ! -f $sFileName ]] ; then
+    exit 1
+fi
+#Checks the server environment
+sFileContent=`cat ${sFileName}`
+sTMP=`echo $sFileContent | awk -F ';' '{print $NF}' | grep -i p`
+
+if [ $? -eq 0 ] ; then
+    sServerDNS="monomptk.bezeqint.co.il"
+    sServerIP="212.25.80.38"
+    sServerName="monomptk"
+    #If the argument don't match the server environment - abort
+    if [ ${sENV} = "-t" ] ; then
+        exit 8
+    fi
+else
+    sTMP=`echo $sFileContent | awk -F ';' '{print $NF}' | grep -i t`
+    if [ $? -eq 0 ] ; then
+        sServerDNS="monomdrp.bezeqint.co.il"
+        sServerIP="212.25.80.39"
+        sServerName="monomdrp"
+        #If the argument don't match the server environment - abort
+        if [ ${sENV} = "-p" ] ; then
+            exit 8
+        fi
+    else
+        exit 5
+    fi
+fi
+sOMServer=`cat /etc/hosts | grep -i $sServerDNS`
+if [ -z "$sOMServer" ]; then
+	sServerStr="${sServerIP} ${sServerDNS} ${sServerName}"
+	echo ${sServerStr} >> /etc/hosts
+fi
+#Set the agent profile file with the required IP
+#echo $sFileContent
+echo "set eaagt:OPC_IP_ADDRESS=${sNetstat}" > /tmp/agt_prf
+echo "set bbc.cb:SERVER_BIND_ADDR=${sNetstat}" >> /tmp/agt_prf
+echo "set bbc.http:SERVER_BIND_ADDR=${sNetstat}" >> /tmp/agt_prf
+echo "set bbc.http:CLIENT_BIND_ADDR=${sNetstat}" >> /tmp/agt_prf
+#Create the agent install command with the right path
+sInstCMD="./oasetup.sh -install -minprecheck -management_server ${sServerDNS} -certificate_server ${sServerDNS} -agent_profile /tmp/agt_prf"
+#echo $sInstCMD
+${sInstCMD} > /tmp/agtinstall.tmp
+#Check the installation log file /tmp/agtinstall.tmp
+sError=`cat /tmp/agtinstall.tmp | grep -i error`
+if [ ! -z "$sError" ]; then
+    #The installation had errors
+    mv /tmp/agtinstall.tmp /tmp/agtinstall.tmp.old
+    exit 2
+else
+    sError=`cat /tmp/agtinstall.tmp | grep -i "completed successfully"`
+    if [ ! -z "$sError" ]; then
+        #Installation succeeded
+        mv /tmp/agtinstall.tmp /tmp/agtinstall.tmp.old
+		if [[ -f /opt/OV/bin/ovconfget ]] ; then
+			sOvconfget="/opt/OV/bin/ovconfget"
+			sOvconfchg="/opt/OV/bin/ovconfchg"
+			sOpcactivate="/opt/OV/bin/OpC/install/opcactivate"
+			sOVC="/opt/OV/bin/ovc"
+			sOVSwitchUser="/opt/OV/bin/ovswitchuser.sh"
+			sOvbbccb="/opt/OV/bin/ovbbccb"
+		else
+			sOvconfget="/usr/lpp/OV/bin/ovconfget"
+			sOvconfchg="/usr/lpp/OV/bin/ovconfchg"
+			sOpcactivate="/usr/lpp/OV/bin/OpC/install/opcactivate"
+			sOVC="/usr/lpp/OV/bin/ovc"
+			sOVSwitchUser="/usr/lpp/OV/bin/ovswitchuser.sh"
+			sOvbbccb="/usr/lpp/OV/bin/ovbbccb"
+		fi
+		sCurrOMServName=`${sOvconfget} | awk -F "=" '/MANAGER=/{print $2}' | tr [:upper:] [:lower:]`
+		if [ $sCurrOMServName != $sServerDNS ]; then
+			echo set eaagt.lic.mgrs:general_licmgr=monomdrp.bezeqint.co.il > /tmp/tmp.agtprf.opcactivate
+			$sOpcactivate -configure /tmp/tmp.agtprf.opcactivate -srv $sServerDNS -cert_srv $sServerDNS -f
+			rm -f /tmp/tmp.agtprf.opcactivate
+		fi
+		/opt/OV/bin/ovcert -certreq
+		sCurrAgentUser=`ps -ef | grep -i ovcd | grep -v grep | awk '{print $1}'`
+		if [ $sCurrAgentUser == "root" ]; then
+			$sOVC -kill
+			$sOVSwitchUser -existinguser shobab -existinggroup shobab
+			chmod 4550 $sOvbbccb
+			$sOvconfchg -ns bbc.cb -set CHROOT_PATH /
+			su - shobab -c "$sOVC -start"
+		fi
+        exit 0
+    else
+        #No errors was found but no "completed successfully" line was found either
+        mv /tmp/agtinstall.tmp /tmp/agtinstall.tmp.old
+        exit 3
+    fi
+fi
